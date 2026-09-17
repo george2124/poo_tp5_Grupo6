@@ -11,6 +11,10 @@ public class ItemCarrito {
 		this.cantidad = cantidad;
 	}
 	
+	public int getId() {
+		return id;
+	}
+	
 	public double subTotal() {
 		return this.cantidad * this.producto.getPrecio();
 	}

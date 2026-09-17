@@ -13,6 +13,10 @@ public class Producto {
 		this.activo = activo;
 	}
 	
+	public String getCodigo() {
+		return codigo;
+	}
+	
 	public double getPrecio() {
 		return precio;
 	}
