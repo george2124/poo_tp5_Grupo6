@@ -6,40 +6,51 @@ import java.util.List;
 
 public class RutaEnvio {
     private LocalDate fecha;
-    private List<Envio> enviosAsociados;
-    private List<Vehiculo> vehiculo;
-
-    // Constructor que recibe LocalDate
-    public RutaEnvio(LocalDate fecha) {
+    private Vehiculo vehiculo;
+    private List<Envio> envioAsociado;
+    
+    // Constructor 
+    public RutaEnvio(LocalDate fecha, Vehiculo vehiculo) {
         this.fecha = fecha;
-        this.enviosAsociados = new ArrayList<>();
-        this.vehiculo = new ArrayList<>();
+        this.vehiculo = vehiculo;
+        this.envioAsociado = new ArrayList<>();   
     }
 
-    // Constructor que recibe String y Vehiculo (Corregido)
-    public RutaEnvio(String fechaStr, Vehiculo vehiculo1) {
+    // Constructor que recibe String 
+    public RutaEnvio(String fechaStr, Vehiculo vehiculo) {
         this.fecha = LocalDate.parse(fechaStr);
-        this.enviosAsociados = new ArrayList<>();
-        this.vehiculo = new ArrayList<>();
-        this.vehiculo.add(vehiculo1);
+        this.vehiculo = vehiculo;
+        this.envioAsociado = new ArrayList<>();
     }
 
-    // Métodos del UML
-    public void asignarRuta(Envio envio) {
-        if (this.enviosAsociados == null) {
-            this.enviosAsociados = new ArrayList<>();
+    // Métodos 
+    public boolean asignarRuta(Envio envio) {
+        if (envio.getEnvio().isEmpty()) {
+        	 System.out.println("No se puede asignar una ruta a un envío sin paquetes.");
+             return false;
         }
-        this.enviosAsociados.add(envio);
-        envio.setEstado(EstadoEnvio.EN_RUTA);
-        System.out.println("Envío " + envio.getId() + " asignado a la ruta del " + fecha);
+        
+        // Validamos el peso sumando el nuevo envío usando nuestra función de control
+        double pesoActual = 0;
+        for (Envio e : envioAsociado) {
+            pesoActual += e.obtenerPesoTotalEnvio();
+        }
+        if (pesoActual + envio.obtenerPesoTotalEnvio() <= vehiculo.getCapacidadPeso()) {
+            envioAsociado.add(envio);
+            envio.setEstado(EstadoEnvio.EN_ALMACEN);
+            return true;
+        }
+        return false;
     }
     
-    // Método extra para asignar el vehículo encargado de la ruta
-    public void agregarVehiculo(Vehiculo v) {
-        if (this.vehiculo == null) {
-            this.vehiculo = new ArrayList<>();
+    // calcularPesoTotal(): boolean
+    // Retorna true si la carga acumulada actual es segura y no supera el máximo del vehículo
+    public boolean calcularPesoTotal() {
+        double pesoAcumulado = 0;
+        for (Envio e : envioAsociado) {
+            pesoAcumulado += e.obtenerPesoTotalEnvio();
         }
-        this.vehiculo.add(v);
+        return pesoAcumulado <= vehiculo.getCapacidadPeso();
     }
 
     // Getters y Setters
@@ -52,10 +63,7 @@ public class RutaEnvio {
     }
 
     public List<Envio> getEnviosAsociados() {
-        return enviosAsociados;
+        return getEnviosAsociados();
     }
 
-    public List<Vehiculo> getVehiculo() {
-        return vehiculo;
-    }
 }

@@ -45,6 +45,25 @@ public class Envio {
         System.out.println("Estado actual: " + estado);
         System.out.println("Cantidad de paquetes: " + envio.size());
     }
+    
+    // metodos auxiliares
+    // 1.Metodo para calcular el peso total
+    public double obtenerPesoTotalEnvio() {
+       double total = 0;
+        for (Paquete elem : envio) {
+            total += elem.getPeso(); // Suma el peso de cada elemento
+        }
+        return total;
+    }
+
+    // 2. Método para calcular el volumen total
+    //public double calcularVolumenTotal(Paquete paquete) {
+      //  double volumenTotal = 0.0;
+        //for (Paquete elem : paquetes) {
+          //  volumenTotal += elem.getVolumen(); // Suma el volumen de cada elemento
+        //}
+        //return volumenTotal;
+    //}
 
 	public int getId() {
 		return id;
