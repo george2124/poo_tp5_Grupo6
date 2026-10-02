@@ -56,15 +56,6 @@ public class Envio {
         return total;
     }
 
-    // 2. Método para calcular el volumen total
-    //public double calcularVolumenTotal(Paquete paquete) {
-      //  double volumenTotal = 0.0;
-        //for (Paquete elem : paquetes) {
-          //  volumenTotal += elem.getVolumen(); // Suma el volumen de cada elemento
-        //}
-        //return volumenTotal;
-    //}
-
 	public int getId() {
 		return id;
 	}
